@@ -44,7 +44,7 @@ defmodule Bamboo.LocalAdapter do
 
   def handle_config(config), do: config
 
-  def supports_attachments?, do: true
+  def supports_attachments?(_config), do: true
 
   defp open_url_in_browser("test://" <> _), do: :opened
 

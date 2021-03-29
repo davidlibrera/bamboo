@@ -31,13 +31,14 @@ defmodule Bamboo.Adapter do
           end
         end
 
-        def supports_attachments?, do: true
+        def supports_attachments?(config), do: decide_if_can_support_attachments(config)
       end
   """
 
   @type error :: Exception.t() | String.t()
+  @type config :: list({Atom.t(), any})
 
   @callback deliver(%Bamboo.Email{}, %{}) :: {:ok, any} | {:error, error}
   @callback handle_config(map) :: map
-  @callback supports_attachments? :: boolean
+  @callback supports_attachments?(config) :: boolean
 end

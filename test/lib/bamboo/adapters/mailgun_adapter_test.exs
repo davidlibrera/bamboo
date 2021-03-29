@@ -224,7 +224,7 @@ defmodule Bamboo.MailgunAdapterTest do
 
     assert_receive {:fake_mailgun, %{params: params, req_headers: headers}}
 
-    assert MailgunAdapter.supports_attachments?()
+    assert MailgunAdapter.supports_attachments?(@config)
     assert params["from"] == elem(email.from, 1)
     assert params["subject"] == email.subject
     assert params["text"] == email.text_body

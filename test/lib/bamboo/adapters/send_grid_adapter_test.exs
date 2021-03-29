@@ -149,7 +149,7 @@ defmodule Bamboo.SendGridAdapterTest do
 
     email |> SendGridAdapter.deliver(@config)
 
-    assert SendGridAdapter.supports_attachments?()
+    assert SendGridAdapter.supports_attachments?(@config)
     assert_receive {:fake_sendgrid, %{params: params, req_headers: headers}}
 
     assert params["from"]["name"] == email.from |> elem(0)

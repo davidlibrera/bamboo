@@ -77,7 +77,7 @@ defmodule Bamboo.SendGridAdapter do
   end
 
   @doc false
-  def supports_attachments?, do: true
+  def supports_attachments?(_config), do: true
 
   defp get_key(config) do
     api_key =

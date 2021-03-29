@@ -115,7 +115,7 @@ defmodule Bamboo.MailgunAdapter do
   end
 
   @doc false
-  def supports_attachments?, do: true
+  def supports_attachments?(_config), do: true
 
   defp full_uri(config) do
     config.base_uri <> "/" <> config.domain <> "/messages"

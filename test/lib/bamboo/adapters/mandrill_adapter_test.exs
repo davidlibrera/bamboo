@@ -115,7 +115,7 @@ defmodule Bamboo.MandrillAdapterTest do
 
     email |> MandrillAdapter.deliver(@config)
 
-    assert MandrillAdapter.supports_attachments?()
+    assert MandrillAdapter.supports_attachments?(@config)
     assert_receive {:fake_mandrill, %{params: params}}
     assert params["key"] == @config[:api_key]
     message = params["message"]

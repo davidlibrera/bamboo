@@ -57,5 +57,5 @@ defmodule Bamboo.TestAdapter do
   end
 
   @doc false
-  def supports_attachments?, do: true
+  def supports_attachments?(_config), do: true
 end

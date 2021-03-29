@@ -195,7 +195,7 @@ defmodule Bamboo.Mailer do
 
   @doc false
   def deliver_now(adapter, email, config, opts) do
-    with {:ok, email} <- validate_and_normalize(email, adapter) do
+    with {:ok, email} <- validate_and_normalize(email, adapter, config) do
       if empty_recipients?(email) do
         debug_unsent(email)
 
@@ -232,7 +232,7 @@ defmodule Bamboo.Mailer do
 
   @doc false
   def deliver_later(adapter, email, config) do
-    with {:ok, email} <- validate_and_normalize(email, adapter) do
+    with {:ok, email} <- validate_and_normalize(email, adapter, config) do
       if empty_recipients?(email) do
         debug_unsent(email)
       else
@@ -276,26 +276,26 @@ defmodule Bamboo.Mailer do
     end)
   end
 
-  defp validate_and_normalize(email, adapter) do
-    case validate(email, adapter) do
+  defp validate_and_normalize(email, adapter, config) do
+    case validate(email, adapter, config) do
       :ok -> {:ok, normalize_addresses(email)}
       error -> error
     end
   end
 
-  defp validate(email, adapter) do
+  defp validate(email, adapter, config) do
     with :ok <- validate_from_address(email),
          :ok <- validate_recipients(email),
-         :ok <- validate_attachment_support(email, adapter) do
+         :ok <- validate_attachment_support(email, adapter, config) do
       :ok
     end
   end
 
-  defp validate_attachment_support(%{attachments: []} = _email, _adapter), do: :ok
+  defp validate_attachment_support(%{attachments: []} = _email, _adapter, _config), do: :ok
 
-  defp validate_attachment_support(_email, adapter) do
-    if Code.ensure_loaded?(adapter) && function_exported?(adapter, :supports_attachments?, 0) &&
-         adapter.supports_attachments? do
+  defp validate_attachment_support(_email, adapter, config) do
+    if Code.ensure_loaded?(adapter) && function_exported?(adapter, :supports_attachments?, 1) &&
+         adapter.supports_attachments?(config) do
       :ok
     else
       {:error, "the #{adapter} does not support attachments yet."}

@@ -27,7 +27,7 @@ defmodule Bamboo.MailerTest do
 
     def handle_config(config), do: config
 
-    def supports_attachments?, do: true
+    def supports_attachments?(_config), do: true
   end
 
   defmodule FailureAdapter do
@@ -37,7 +37,7 @@ defmodule Bamboo.MailerTest do
 
     def handle_config(config), do: config
 
-    def supports_attachments?, do: true
+    def supports_attachments?(_config), do: true
   end
 
   test "deliver_now/1 returns :ok tuple with sent email" do
@@ -289,7 +289,7 @@ defmodule Bamboo.MailerTest do
 
       def handle_config(config), do: config
 
-      def supports_attachments?, do: false
+      def supports_attachments?(_config), do: false
     end
 
     @tag adapter: AdapterWithoutAttachmentSupport
